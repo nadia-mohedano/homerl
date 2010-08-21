@@ -1,0 +1,61 @@
+Features:
+- Ability to have available in my hard drive a structure of folders containing all the areas that I am interested in and per each area a list of subfolders containing information about each apartment in that area: amount of rooms, square metres, pictures, etc.  
+- Ability to search apartments given a specific criteria as area, kvm, rooms, etc.
+- Ability to get the average price per square metres of the apartments for a specific area.
+- Ability to receive a notification when a new apartment has been added.
+- Ability to rate each apartment according to personal preferences like furniture, light, area, distance to the closest supermarket 
+- Ability to get the apartment that suits me better.
+
+
+Modules:
+- homerl.erl
+Implements application behaviour.
+- homerl_sup.erl
+Implements supervisor behaviour.
+- homerl_server.erl
+Implements a gen_server behaviour and will be used as interface for the user to interact with the system.
+- homerl_db.erl
+Write and read information about apartments in a dets table.
+- homerl_fetcher.erl
+Fetches the data from the different websites by sending http requests. Sends the html to the specific parser and calls the homerl_db and homerl_disk modules to store the data.
+- homerl_parser_XYZ.erl
+Parses the html data received from the XYZ website and extracts the important information of each apartment and sends it back to the homerl_fetcher module.
+- homerl_disk.erl
+Receives the information of the apartments from the homerl_fetcher and stores it on the hard drive in a folder structure way (it also takes care of the pictures).
+- homerl_cron.erl
+Calls the homerl_server every X hours to fetch new data from the websites.
+- homerl_expert_system 
+Its goal is to select the best apartment for the user.
+
+
+                                        homerl.erl
+					     |
+					     |
+					     V
+				      homerl_sup.erl
+				            ||
+		==========================================================
+		||                          ||                          || 
+		V			    V	                         V
+	homerl_cron.erl               homerl_server.erl                dets <-----
+                |_____________________^     |			       	          |
+			fetches	    	    |			    		  |
+					    |					  |	
+					    |					  |
+                ----------------------------------------------------------	  |
+		|                           |                            |        |
+		|			    |			      average	  |
+	    best_home		      read_websites	              searches    |
+		|			    |			       rate	  |
+		|			    |			       	 |	  |
+		V			    V				 V	  |
+     homerl_expert_system.erl      homerl_fetcher.erl -----------> homerl_db.erl --
+     	        |                           |                            ^
+		|			    |				 |
+     		|	      ______________|_______________             |
+		|	      |                             |            |
+		|             V				    V            |
+		|      homerl_disk.erl             homerl_parser_1.erl   |
+		|	  			   homerl_parser_N.erl   |
+		|							 |
+		|________________________________________________________|
