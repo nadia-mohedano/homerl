@@ -1,0 +1,23 @@
+{application, homerl, 
+ [
+  {description,  "homerl - HOME finder written in ERLang: it is an application 
+  that fetches information about apartments in Stockholm from specific Swedish 
+  websites and helps you find the apartment that fits you better depending on 
+  your needs."},
+
+  % The Module and Args used to start this application.
+  {mod, { homerl_app, []} },
+
+  % All modules used by the application.
+  {modules,
+   [homerl_app
+    ,homerl_sup
+    ,homerl_server
+   ]},
+
+  % configuration parameters similar to those in the config file specified on the command line
+  {env, [{ip, "0.0.0.0"}
+         ,{hostname, "localhost"}
+         ,{port, 8282}	
+        ]}
+ ]}.
