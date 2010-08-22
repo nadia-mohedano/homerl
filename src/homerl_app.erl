@@ -6,7 +6,7 @@
 -module(homerl_app).
 -behaviour(application).
 
--export([start/2, stop/1]).
+-export([start/2, stop/1, get_env/2]).
 
 -include("homerl.hrl").
 
@@ -16,3 +16,8 @@ start(_, _) ->
 stop(_) ->
     ok.
 
+get_env(Key, Default) ->
+    case application:get_env(homerl, Key) of
+	{ok, Value} -> Value;
+	_           -> Default
+    end.

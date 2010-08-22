@@ -6,7 +6,8 @@
 -behaviour(gen_server).
 
 %% API
--export([]).
+-export([read_websites/0,
+	]).
 
 %% gen_server callbacks
 -export([start_link/0, init/1, handle_call/3, handle_cast/2, handle_info/2,
@@ -22,10 +23,19 @@
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
+read_websites() ->
+    gen_server:call(?SERVER, read_websites).
+
+    
+
+%%====================================================================
+%% gen_server callbacks
+%%====================================================================
 init([]) ->
     {ok, #state{}}.
 
-
+handle_call(read_websites, _From, State) ->
+    do_read_websites(State);
 handle_call(_Request, _From, State) ->
     {reply, error, State}.
 
@@ -45,4 +55,7 @@ code_change(_OldVsn, State, _Extra) ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
-
+do_read_websites(State) ->
+    Res = [homerl_fetcher:read_website(Mod, Uri) 
+	   || {Mod, Uri} <- homerl_app:get_env(websites, Default)],
+    {reply, Res, State}.

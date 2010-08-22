@@ -13,11 +13,13 @@
    [homerl_app
     ,homerl_sup
     ,homerl_server
+    ,homerl_fetcher
    ]},
 
   % configuration parameters similar to those in the config file specified on the command line
   {env, [{ip, "0.0.0.0"}
          ,{hostname, "localhost"}
          ,{port, 8282}	
+	 ,{websites, [{homerl_parser_husman, "http://www.husmanhagberg.se/Hitta-maklare/"}]}       
         ]}
  ]}.
