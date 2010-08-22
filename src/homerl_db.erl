@@ -3,25 +3,25 @@
 
 -module(homerl_db.erl).
 
-%-include_lib("../include/homerl.hrl").
+-include_lib("../include/homerl.hrl").
 
--export([init/2, 
-	 write_apartment/2, 
-	 read_apartment/2, 
-	 delete_apartment/2
+-export([init/0, 
+	 write_apartment/1, 
+	 read_apartment/1, 
+	 delete_apartment/1
 	]).
 
-init(Table, []) ->
-    dets:open_file(Table, []).    
+init() ->
+    dets:open_file(?TABLE, []).    
 
-write_apartment(Table, Data) ->
-    dets:insert(Table, Data).
+write_apartment(Data) ->
+    dets:insert(?TABLE, Data).
 
-read_apartment(Id, Table) ->
-    dets:lookup(Table, Id).
+read_apartment(Id) ->
+    dets:lookup(?TABLE, Id).
 
-delete_apartment(Table, Id) ->
-    dets:delete(Table, Id).
+delete_apartment(Id) ->
+    dets:delete(?TABLE, Id).
 
 
 
