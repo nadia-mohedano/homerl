@@ -6,7 +6,7 @@
 -behaviour(gen_server).
 
 %% API
--export([read_websites/0,
+-export([read_websites/0
 	]).
 
 %% gen_server callbacks
@@ -17,14 +17,14 @@
 
 -define(SERVER, ?MODULE).
 
--record(state, []).
+-record(state, {}).
 
 
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 read_websites() ->
-    gen_server:call(?SERVER, read_websites).
+    gen_server:call(?SERVER, read_websites, infinity).
 
     
 
@@ -56,6 +56,6 @@ code_change(_OldVsn, State, _Extra) ->
 %%% Internal functions
 %%%===================================================================
 do_read_websites(State) ->
-    Res = [homerl_fetcher:read_website(Mod, Uri) 
-	   || {Mod, Uri} <- homerl_app:get_env(websites, Default)],
+    Res = [Mod:parse(Uri, Areas) || 
+	      {Mod, Uri, Areas} <- homerl_app:get_env(websites, [])],
     {reply, Res, State}.
