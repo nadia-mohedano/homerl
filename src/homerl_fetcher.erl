@@ -1,8 +1,9 @@
 -module(homerl_fetcher).
 
--export([read_website/2]).
+-export([get_html/1]).
 
 
-read_website(Mod, Url) ->
-    Html = httpc:request(Url),
-    Mod:parse(Html).
+get_html(Url) ->
+    {ok, {_, _, Html}} = httpc:request(Url),
+    Html.
+
