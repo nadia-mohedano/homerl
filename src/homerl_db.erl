@@ -1,7 +1,7 @@
 %% @author Nadia Mohedano Troyano <nadiamt@gmail.com>
 %% @copyright 2010 Nadia Mohedano Troyano
 
--module(homerl_db.erl).
+-module(homerl_db).
 
 -include_lib("../include/homerl.hrl").
 
