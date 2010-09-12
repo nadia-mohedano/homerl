@@ -11,6 +11,8 @@
 -include("homerl.hrl").
 
 start(_, _) ->
+    application:start(inets),
+    application:start(dets),
     homerl_sup:start_link().
 
 stop(_) ->

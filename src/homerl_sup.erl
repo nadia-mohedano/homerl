@@ -47,6 +47,4 @@ upgrade() ->
 %% @doc supervisor callback.
 init([]) ->
     HomerlServer = worker(homerl_server),
-    Dets = worker(dets),
-    Inets = worker(inets),
-    {ok, {{one_for_one, 10, 10}, [HomerlServer, Dets, Inets]}}.
+    {ok, {{one_for_one, 10, 10}, [HomerlServer]}}.
